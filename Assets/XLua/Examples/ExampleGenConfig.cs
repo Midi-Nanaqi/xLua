@@ -109,17 +109,17 @@ public static class ExampleGenConfig
         return BlackGenericTypeList.Contains(type.GetGenericTypeDefinition());
     }
 
-    [BlackList] public static Func<MemberInfo, bool> GenericTypeFilter = (memberInfo) =>
+    [BlackList] public static Func<System.Reflection.MemberInfo, bool> GenericTypeFilter = (memberInfo) =>
     {
         switch (memberInfo)
         {
-            case PropertyInfo propertyInfo:
+            case System.Reflection.PropertyInfo propertyInfo:
                 return IsBlacklistedGenericType(propertyInfo.PropertyType);
 
-            case ConstructorInfo constructorInfo:
+            case System.Reflection.ConstructorInfo constructorInfo:
                 return constructorInfo.GetParameters().Any(p => IsBlacklistedGenericType(p.ParameterType));
 
-            case MethodInfo methodInfo:
+            case System.Reflection.MethodInfo methodInfo:
                 return methodInfo.GetParameters().Any(p => IsBlacklistedGenericType(p.ParameterType));
 
             default:

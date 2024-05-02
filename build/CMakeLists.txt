@@ -40,6 +40,102 @@ endif()
 set(LUA_SRC_PATH lua-${LUA_VERSION}/src)
 set(LUAJIT_SRC_PATH luajit-2.1.0b3/src)
 
+
+# lua-protobuf 或 pbc 二选一
+if (NOT PBC)
+	#begin lua-profobuf
+	set (LPB_SRC 
+		lua-protobuf-0.4.0/pb.c
+	)
+	set_property(
+		SOURCE ${LPB_SRC}
+		APPEND
+		PROPERTY COMPILE_DEFINITIONS
+		LUA_LIB
+	)
+	list(APPEND THIRDPART_INC lua-protobuf-0.4.0)
+	set (THIRDPART_SRC ${THIRDPART_SRC} ${LPB_SRC})
+	#end lua-protobuf
+else()
+	#begin pbc
+	set (PBC_SRC 
+		pbc/src/alloc.c
+		pbc/src/array.c
+		pbc/src/bootstrap.c
+		pbc/src/context.c
+		pbc/src/decode.c
+		pbc/src/map.c
+		pbc/src/pattern.c
+		pbc/src/proto.c
+		pbc/src/register.c
+		pbc/src/rmessage.c
+		pbc/src/stringpool.c
+		pbc/src/varint.c
+		pbc/src/wmessage.c
+	)
+
+	if (USING_LUAJIT)
+		list(APPEND PBC_SRC pbc pbc/binding/lua/pbc-lua.c)
+	else ()
+		list(APPEND PBC_SRC pbc pbc/binding/lua53/pbc-lua53.c)
+	endif ()
+
+	set_property(
+		SOURCE ${PBC_SRC}
+		APPEND
+		PROPERTY COMPILE_DEFINITIONS
+		LUA_LIB
+	)
+	list(APPEND THIRDPART_INC pbc pbc/src)
+	set (THIRDPART_SRC ${THIRDPART_SRC} ${PBC_SRC})
+	#end pbc
+endif ()
+
+#begin lua-rapidjson
+set (RAPIDJSON_SRC lua-rapidjson/source/rapidjson.cpp)
+set_property(
+	SOURCE ${RAPIDJSON_SRC}
+	APPEND
+	PROPERTY COMPILE_DEFINITIONS
+	LUA_LIB
+)
+list(APPEND THIRDPART_INC  lua-rapidjson/include)
+set (THIRDPART_SRC ${THIRDPART_SRC} ${RAPIDJSON_SRC})
+#end lua-rapidjson
+
+#begin lpeg
+set ( LPEG_SRC
+    lpeg/lpcap.c
+    lpeg/lpcode.c
+    lpeg/lpprint.c
+    lpeg/lptree.c
+    lpeg/lpvm.c
+)
+set_property(
+    SOURCE ${LPEG_SRC}
+    APPEND
+    PROPERTY COMPILE_DEFINITIONS
+    LUA_LIB
+)
+list(APPEND THIRDPART_INC  lpeg-0.12)
+set (THIRDPART_SRC ${THIRDPART_SRC} ${LPEG_SRC})
+#end lpeg
+
+#begin FFI
+if (NOT USING_LUAJIT)
+	set (FFI_SRC ffi/parser.c ffi/ctype.c ffi/ffi.c)
+	set_property(
+		SOURCE ${FFI_SRC}
+		APPEND
+		PROPERTY COMPILE_DEFINITIONS
+		LUA_LIB
+	)
+	list(APPEND THIRDPART_INC  ffi)
+	set (THIRDPART_SRC ${THIRDPART_SRC} ${FFI_SRC})
+endif ()
+#end FFI
+
+
 if (USING_LUAJIT)
 	
     if (APPLE AND NOT IOS AND NOT ANDROID)
