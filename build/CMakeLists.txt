@@ -142,12 +142,12 @@ if (USING_LUAJIT)
 	
     if (APPLE AND NOT IOS AND NOT ANDROID)
 	    include_directories(
+          ${CUSTOM_PATH}
 		  ${CMAKE_SOURCE_DIR}
 		  lua-5.1.5/src
 		  lua-5.1.5/etc
 		  ${CMAKE_CURRENT_BINARY_DIR}
 		  ${THIRDPART_INC}
-          ${CUSTOM_PATH}
 	    )
 	    set ( LUA_CORE lua-5.1.5/src/lapi.c lua-5.1.5/src/lcode.c lua-5.1.5/src/ldebug.c lua-5.1.5/src/ldo.c lua-5.1.5/src/ldump.c lua-5.1.5/src/lfunc.c 
           lua-5.1.5/src/lgc.c lua-5.1.5/src/llex.c lua-5.1.5/src/lmem.c lua-5.1.5/src/lobject.c lua-5.1.5/src/lopcodes.c lua-5.1.5/src/lparser.c lua-5.1.5/src/lstate.c 
@@ -157,10 +157,10 @@ if (USING_LUAJIT)
 	else ()
 	    include_directories(
 		  ${CMAKE_SOURCE_DIR}
+          ${CUSTOM_PATH}
 		  ${LUAJIT_SRC_PATH}
 		  ${CMAKE_CURRENT_BINARY_DIR}
 		  ${THIRDPART_INC}
-          ${CUSTOM_PATH}
 	    )
 
 	    set ( LUA_CORE )
