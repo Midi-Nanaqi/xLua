@@ -9,6 +9,8 @@
 
 #include "lprefix.h"
 
+#include "crypto.h"
+#include "log.h"
 
 #include <errno.h>
 #include <stdarg.h>
