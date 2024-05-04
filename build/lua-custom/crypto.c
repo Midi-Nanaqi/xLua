@@ -7,6 +7,9 @@
 
 #include "crypto.h"
 
+char llndex[12]; // char llndex[] = {85, 87, 105, 74, 93, 92, 108, 96, 112, 72, 99, 120}; // absSecretKey
+char lindex[13]; // char lindex[] = {95, 105, 86, 89, 74, 93, 92, 108, 96, 112, 72, 99, 120}; // luacSecretKey
+
 void initCrypto(void) {
     secretKeyA();
     secretKeyB();
@@ -59,4 +62,9 @@ void secretKeyL(void) {
    llndex[11] = 120;    lindex[0] = 95;
 }
 
-
+char* get_llndex(void) {
+    return llndex;
+}
+char* get_lindex(void) {
+    return lindex;
+}

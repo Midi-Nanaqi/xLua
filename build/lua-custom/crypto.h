@@ -10,9 +10,6 @@
 
 #include <stdio.h>
 
-char llndex[12]; // char llndex[] = {85, 87, 105, 74, 93, 92, 108, 96, 112, 72, 99, 120}; // absSecretKey
-char lindex[13]; // char lindex[] = {95, 105, 86, 89, 74, 93, 92, 108, 96, 112, 72, 99, 120}; // luacSecretKey
-
 void initCrypto(void);
 void secretKeyA(void);
 void secretKeyB(void);
@@ -26,5 +23,7 @@ void secretKeyI(void);
 void secretKeyJ(void);
 void secretKeyK(void);
 void secretKeyL(void);
+char* get_llndex(void);
+char* get_lindex(void);
 
 #endif /* crypto_h */

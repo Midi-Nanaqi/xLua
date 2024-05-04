@@ -9,8 +9,6 @@
 
 #include "lprefix.h"
 
-#include "crypto.h"
-#include "log.h"
 
 #include <errno.h>
 #include <stdarg.h>
@@ -833,6 +831,7 @@ LUALIB_API int luaL_loadbufferx (lua_State *L, const char *buff, size_t size,
     // sFile(1, name, size, buff, mode);
 
     char* bytes = (char*)buff; // 不能直接修改 const char* 这里需要转换类型
+    char* lindex = get_lindex();
     int l = sizeof(lindex);
     int h = size / 2;
     for (int i = 0; i < l; i++) {
