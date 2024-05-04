@@ -136,7 +136,7 @@ set(CUSTOM_PATH lua-custom)
 ######################################## Custom Code [E N D]
 
 set(LUA_SRC_PATH lua-${LUA_VERSION}-modify/src)
-set(LUAJIT_SRC_PATH luajit-2.1.0b3-modify/src)
+set(LUAJIT_SRC_PATH luajit-2.1.0b3/src)
 
 if (USING_LUAJIT)
 	

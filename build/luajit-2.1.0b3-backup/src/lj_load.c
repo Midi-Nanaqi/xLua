@@ -134,67 +134,13 @@ static const char *reader_string(lua_State *L, void *ud, size_t *size)
   return ctx->str;
 }
 
-// [backup]
-// LUALIB_API int luaL_loadbufferx(lua_State *L, const char *buf, size_t size,
-// 				const char *name, const char *mode)
-// {
-//   StringReaderCtx ctx;
-//   ctx.str = buf;
-//   ctx.size = size;
-//   return lua_loadx(L, reader_string, &ctx, name, mode);
-// }
-LUALIB_API int luaL_loadbufferx(lua_State *L, const char *buff, size_t size,
+LUALIB_API int luaL_loadbufferx(lua_State *L, const char *buf, size_t size,
 				const char *name, const char *mode)
 {
-  char s1[] = {0100, 0124, 0145, 0155, 0160, 0154, 0141, 0164, 0145, 0103, 0157, 0155, 0155, 0157, 0156, 0000};    // @TemplateCommon - 八进制
-  char s2[] = {0154, 0165, 0141, 0164, 0145, 0155, 0160, 0154, 0141, 0164, 0145, 0000}; // luatemplate - 八进制
-  char s3[] = {0111, 0156, 0151, 0164, 0000};  // Init - 八进制
-
-  if (strcmp(name, s1) == 0 || strcmp(name, s2) == 0 || strcmp(name, s3) == 0) 
-  { // 正常加载 
-    // Test Code
-    // sFile(0, name, size, buff, mode);
-
-    StringReaderCtx ctx;
-    ctx.str = buff;
-    ctx.size = size;
-    return lua_loadx(L, reader_string, &ctx, name, mode);
-  } else { // 这里需要解密
-    // Test Code
-    // sFile(1, name, size, buff, mode);
-
-    char* bytes = (char*)buff; // 不能直接修改 const char* 这里需要转换类型
-    char* lindex = get_lindex();
-    int l = sizeof(lindex);
-    int h = size / 2;
-    for (int i = 0; i < l; i++) {
-      int v = lindex[i] + (l - i);
-      int idx = 0;
-        if (i % 2 == 0) {
-            idx = (h + v) < size ? h + v : 0;
-        } else {
-            idx = (h - v) > 0 ? h - v : 0;
-        }     
-        if (0 == idx || idx + 1 >= size) continue;
-        if (idx % 2 == 0) {
-        int c = ~ bytes[idx - 1];
-        bytes[idx - 1] = ~ bytes[idx];
-        bytes[idx] = c;
-      } else {
-        int c = ~ bytes[idx + 1];
-        bytes[idx + 1] = ~ bytes[idx];
-        bytes[idx] = c;
-      }
-    }
-    int c = ~ bytes[0];
-    bytes[0] = ~ bytes[1];
-    bytes[1] = c;
-
-    StringReaderCtx ctx;
-    ctx.str = bytes;
-    ctx.size = size;
-    return lua_loadx(L, reader_string, &ctx, name, mode);
-  }
+  StringReaderCtx ctx;
+  ctx.str = buf;
+  ctx.size = size;
+  return lua_loadx(L, reader_string, &ctx, name, mode);
 }
 
 LUALIB_API int luaL_loadbuffer(lua_State *L, const char *buf, size_t size,
