@@ -37,10 +37,7 @@ if (NOT LUA_VERSION)
     set(LUA_VERSION "5.3.5")
 endif()
 
-set(LUA_SRC_PATH lua-${LUA_VERSION}/src)
-set(LUAJIT_SRC_PATH luajit-2.1.0b3/src)
-
-
+######################################## Custom Code [START]
 # lua-protobuf 或 pbc 二选一
 if (NOT PBC)
 	#begin lua-profobuf
@@ -135,6 +132,11 @@ if (NOT USING_LUAJIT)
 endif ()
 #end FFI
 
+set(CUSTOM_PATH lua-custom)
+######################################## Custom Code [E N D]
+
+set(LUA_SRC_PATH lua-${LUA_VERSION}-modify/src)
+set(LUAJIT_SRC_PATH luajit-2.1.0b3-modify/src)
 
 if (USING_LUAJIT)
 	
@@ -145,6 +147,7 @@ if (USING_LUAJIT)
 		  lua-5.1.5/etc
 		  ${CMAKE_CURRENT_BINARY_DIR}
 		  ${THIRDPART_INC}
+          ${CUSTOM_PATH}
 	    )
 	    set ( LUA_CORE lua-5.1.5/src/lapi.c lua-5.1.5/src/lcode.c lua-5.1.5/src/ldebug.c lua-5.1.5/src/ldo.c lua-5.1.5/src/ldump.c lua-5.1.5/src/lfunc.c 
           lua-5.1.5/src/lgc.c lua-5.1.5/src/llex.c lua-5.1.5/src/lmem.c lua-5.1.5/src/lobject.c lua-5.1.5/src/lopcodes.c lua-5.1.5/src/lparser.c lua-5.1.5/src/lstate.c 
@@ -157,12 +160,16 @@ if (USING_LUAJIT)
 		  ${LUAJIT_SRC_PATH}
 		  ${CMAKE_CURRENT_BINARY_DIR}
 		  ${THIRDPART_INC}
+          ${CUSTOM_PATH}
 	    )
 
 	    set ( LUA_CORE )
 	    set_property( SOURCE xlua.c APPEND PROPERTY COMPILE_DEFINITIONS USING_LUAJIT )
     endif ()
-	set ( LUA_LIB )
+	set ( LUA_LIB 
+        ${CUSTOM_PATH}/log.c
+		${CUSTOM_PATH}/crypto.c
+    )
 else ()
 	set ( LUA_IDSIZE 120 CACHE STRING "gives the maximum size for the description of the source." )
 
@@ -173,11 +180,15 @@ else ()
 		${LUA_SRC_PATH}
 		${CMAKE_CURRENT_BINARY_DIR}
 		${THIRDPART_INC}
+        ${CUSTOM_PATH}
 	)
 
     aux_source_directory(${LUA_SRC_PATH} LUA_CORE)
     list(REMOVE_ITEM LUA_CORE ${LUA_SRC_PATH}/lua.c ${LUA_SRC_PATH}/luac.c)
-	set ( LUA_LIB )
+	set ( LUA_LIB 
+        ${CUSTOM_PATH}/log.c
+		${CUSTOM_PATH}/crypto.c
+    )
 
 	# set ( LUA_CORE ${LUA_SRC_PATH}/lapi.c ${LUA_SRC_PATH}/lcode.c ${LUA_SRC_PATH}/lctype.c ${LUA_SRC_PATH}/ldebug.c ${LUA_SRC_PATH}/ldo.c ${LUA_SRC_PATH}/ldump.c
 	#   ${LUA_SRC_PATH}/lfunc.c ${LUA_SRC_PATH}/lgc.c ${LUA_SRC_PATH}/llex.c ${LUA_SRC_PATH}/lmem.c ${LUA_SRC_PATH}/lobject.c ${LUA_SRC_PATH}/lopcodes.c ${LUA_SRC_PATH}/lparser.c
