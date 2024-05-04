@@ -26,6 +26,7 @@
 
 #include "lprefix.h"
 
+#include "crypto.h"
 
 #include <stddef.h>
 

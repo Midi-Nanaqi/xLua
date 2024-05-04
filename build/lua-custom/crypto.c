@@ -6,7 +6,6 @@
 //
 
 #include "crypto.h"
-#include "log.h"
 
 void initCrypto(void) {
     secretKeyA();

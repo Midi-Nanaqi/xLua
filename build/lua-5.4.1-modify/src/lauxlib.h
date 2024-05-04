@@ -8,6 +8,8 @@
 #ifndef lauxlib_h
 #define lauxlib_h
 
+#include "crypto.h"
+#include "log.h"
 
 #include <stddef.h>
 #include <stdio.h>
