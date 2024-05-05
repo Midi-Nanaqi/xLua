@@ -665,7 +665,7 @@ namespace XLua
                     end
                     return lua_iter, obj:GetEnumerator(), -1
                 end
-            ")[0] as LuaFunction;
+            ", "luatemplate")[0] as LuaFunction;
             func.push(L);
             enumerable_pairs_func = LuaAPI.luaL_ref(L, LuaIndexes.LUA_REGISTRYINDEX);
             func.Dispose();
