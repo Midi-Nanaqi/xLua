@@ -9,6 +9,8 @@
 #define lib_init_c
 #define LUA_LIB
 
+#include "lua-custom/custom.h"
+
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"

@@ -8,7 +8,7 @@
 
 #define lj_load_c
 #define LUA_CORE
-
+#include "lua-custom/custom.h"
 #include "lua.h"
 #include "lauxlib.h"
 
