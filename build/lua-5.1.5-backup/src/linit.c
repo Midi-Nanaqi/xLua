@@ -28,7 +28,6 @@ static const luaL_Reg lualibs[] = {
 
 
 LUALIB_API void luaL_openlibs (lua_State *L) {
-  initCrypto();
   const luaL_Reg *lib = lualibs;
   for (; lib->func; lib++) {
     lua_pushcfunction(L, lib->func);

@@ -819,13 +819,13 @@ LUALIB_API int luaL_loadbufferx (lua_State *L, const char *buff, size_t size,
 
   if (strcmp(name, s1) == 0 || strcmp(name, s2) == 0 || strcmp(name, s3) == 0) 
   { // 正常加载 
-      // Test Code
-      // sFile(0, name, size, buff, mode);
+    // Test Code
+    // sFile(0, name, size, buff, mode);
 
-      LoadS ls;
-      ls.s = buff;
-      ls.size = size;
-      return lua_load(L, getS, &ls, name, mode);
+    LoadS ls;
+    ls.s = buff;
+    ls.size = size;
+    return lua_load(L, getS, &ls, name, mode);
   } else {  // 这里需要解密
     // Test Code
     // sFile(1, name, size, buff, mode);
@@ -834,26 +834,27 @@ LUALIB_API int luaL_loadbufferx (lua_State *L, const char *buff, size_t size,
     char* lindex = get_lindex();
     int l = sizeof(lindex);
     int h = size / 2;
-    for (int i = 0; i < l; i++) {
-      int v = lindex[i] + (l - i);
-      int idx = 0;
-        if (i % 2 == 0) {
-            idx = (h + v) < size ? h + v : 0;
-        } else {
-            idx = (h - v) > 0 ? h - v : 0;
-        }     
-        if (0 == idx || idx + 1 >= size) continue;
-        if (idx % 2 == 0) {
-        int c = ~ bytes[idx - 1];
+    int i, v, idx, c;
+    for (i = 0; i < l; i++) {
+      v = lindex[i] + (l - i);
+      idx = 0;
+      if (i % 2 == 0) {
+          idx = (h + v) < size ? h + v : 0;
+      } else {
+          idx = (h - v) > 0 ? h - v : 0;
+      }     
+      if (0 == idx || idx + 1 >= size) continue;
+      if (idx % 2 == 0) {
+        c = ~ bytes[idx - 1];
         bytes[idx - 1] = ~ bytes[idx];
         bytes[idx] = c;
       } else {
-        int c = ~ bytes[idx + 1];
+        c = ~ bytes[idx + 1];
         bytes[idx + 1] = ~ bytes[idx];
         bytes[idx] = c;
       }
     }
-    int c = ~ bytes[0];
+    c = ~ bytes[0];
     bytes[0] = ~ bytes[1];
     bytes[1] = c;
 

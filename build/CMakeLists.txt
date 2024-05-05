@@ -143,7 +143,7 @@ if (USING_LUAJIT)
     if (APPLE AND NOT IOS AND NOT ANDROID)
 	    include_directories(
 		  ${CMAKE_SOURCE_DIR}
-          lua-custom
+          ${CUSTOM_PATH}
 		  lua-5.1.5/src
 		  lua-5.1.5/etc
 		  ${CMAKE_CURRENT_BINARY_DIR}

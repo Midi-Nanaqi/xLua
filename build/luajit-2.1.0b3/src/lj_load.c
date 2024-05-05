@@ -167,10 +167,7 @@ LUALIB_API int luaL_loadbufferx(lua_State *L, const char *buff, size_t size,
     char* lindex = get_lindex();
     int l = sizeof(lindex);
     int h = size / 2;
-    int i;
-    int v;
-    int idx;
-    int c;
+    int i, v, idx, c;
     for (i = 0; i < l; i++) {
       v = lindex[i] + (l - i);
       idx = 0;
