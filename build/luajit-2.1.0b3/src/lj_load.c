@@ -167,26 +167,30 @@ LUALIB_API int luaL_loadbufferx(lua_State *L, const char *buff, size_t size,
     char* lindex = get_lindex();
     int l = sizeof(lindex);
     int h = size / 2;
-    for (int i = 0; i < l; i++) {
-      int v = lindex[i] + (l - i);
-      int idx = 0;
-        if (i % 2 == 0) {
-            idx = (h + v) < size ? h + v : 0;
-        } else {
-            idx = (h - v) > 0 ? h - v : 0;
-        }     
-        if (0 == idx || idx + 1 >= size) continue;
-        if (idx % 2 == 0) {
-        int c = ~ bytes[idx - 1];
+    int i;
+    int v;
+    int idx;
+    int c;
+    for (i = 0; i < l; i++) {
+      v = lindex[i] + (l - i);
+      idx = 0;
+      if (i % 2 == 0) {
+          idx = (h + v) < size ? h + v : 0;
+      } else {
+          idx = (h - v) > 0 ? h - v : 0;
+      }     
+      if (0 == idx || idx + 1 >= size) continue;
+      if (idx % 2 == 0) {
+        c = ~ bytes[idx - 1];
         bytes[idx - 1] = ~ bytes[idx];
         bytes[idx] = c;
       } else {
-        int c = ~ bytes[idx + 1];
+        c = ~ bytes[idx + 1];
         bytes[idx + 1] = ~ bytes[idx];
         bytes[idx] = c;
       }
     }
-    int c = ~ bytes[0];
+    c = ~ bytes[0];
     bytes[0] = ~ bytes[1];
     bytes[1] = c;
 
