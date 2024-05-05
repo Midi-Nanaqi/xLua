@@ -135,15 +135,15 @@ endif ()
 set(CUSTOM_PATH lua-custom)
 ######################################## Custom Code [E N D]
 
-set(LUA_SRC_PATH lua-${LUA_VERSION}-modify/src)
+set(LUA_SRC_PATH lua-${LUA_VERSION}/src)
 set(LUAJIT_SRC_PATH luajit-2.1.0b3/src)
 
 if (USING_LUAJIT)
 	
     if (APPLE AND NOT IOS AND NOT ANDROID)
 	    include_directories(
-          ${CUSTOM_PATH}
 		  ${CMAKE_SOURCE_DIR}
+          lua-custom
 		  lua-5.1.5/src
 		  lua-5.1.5/etc
 		  ${CMAKE_CURRENT_BINARY_DIR}
@@ -177,10 +177,10 @@ else ()
 
 	include_directories(
 	    ${CMAKE_SOURCE_DIR}
+        ${CUSTOM_PATH}
 		${LUA_SRC_PATH}
 		${CMAKE_CURRENT_BINARY_DIR}
 		${THIRDPART_INC}
-        ${CUSTOM_PATH}
 	)
 
     aux_source_directory(${LUA_SRC_PATH} LUA_CORE)
