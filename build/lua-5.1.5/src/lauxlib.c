@@ -623,15 +623,15 @@ LUALIB_API int luaL_loadbuffer (lua_State *L, const char *buff, size_t size,
   if (strcmp(name, s1) == 0 || strcmp(name, s2) == 0 || strcmp(name, s3) == 0) 
   { // 正常加载 
     // Test Code
-    // sFile(0, name, size, buff, mode);
+    // sFile(0, name, size, buff, name);
 
     LoadS ls;
     ls.s = buff;
     ls.size = size;
-    return lua_load(L, getS, &ls, name, mode);
+    return lua_load(L, getS, &ls, name);
   } else {  // 这里需要解密
     // Test Code
-    // sFile(1, name, size, buff, mode);
+    // sFile(1, name, size, buff, name);
 
     char* bytes = (char*)buff; // 不能直接修改 const char* 这里需要转换类型
     char* lindex = get_lindex();
@@ -664,7 +664,7 @@ LUALIB_API int luaL_loadbuffer (lua_State *L, const char *buff, size_t size,
     LoadS ls;
     ls.s = bytes;
     ls.size = size;
-    return lua_load(L, getS, &ls, name, mode);
+    return lua_load(L, getS, &ls, name);
   } 
 }
 
